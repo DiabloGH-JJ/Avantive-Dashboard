@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avantive Corporation Sign In</title>
+    <link rel="stylesheet" href="signin.css">
+</head>
+<body>
+    <div class="container">
+        <div id="auth-form">
+            <h2 id="heading">Avantive Corporation</h2>
+            <p class="subtitle" id="subtitle">Admin Panel Sign In</p>
+           
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+           
+            <form id="sign-in-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email-input" name="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password-input" name="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" id="primary-btn" class="sign-in">Sign In</button>
+            </form>
+           
+            <div class="divider"></div>
+            <div class="auth-options">
+                <a href="help.html" class="auth-btn">Need Help?</a>
+                <a href="password.html" class="auth-btn">Forgot Password?</a>
+            </div>
+            <div class="footer-text">
+                Secure | Reliable | Professional
+            </div>
+        </div>
+        <div id="user-info" style="display: none;">
+            <p>Welcome, <span id="user-email"></span></p>
+            <button id="sign-out-btn">Sign Out</button>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+       
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyALYtZA7MPjXwureYYB633rsk0Ni_cYX1c",
+            authDomain: "avantive-585f7.firebaseapp.com",
+            projectId: "avantive-585f7",
+            storageBucket: "avantive-585f7.firebasestorage.app",
+            messagingSenderId: "582038622421",
+            appId: "1:582038622421:web:ff9a784940c8806835925c",
+            measurementId: "G-605P9B6L0Y"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        function clearAuthFields(){
+        const emailInputEl = document.getElementById("email-input").value = "";
+        const passwordInputEl = document.getElementById("password-input").value = "";
+        }
+        
+        // DOM elements
+        const emailInputEl = document.getElementById('email-input');
+        const passwordInputEl = document.getElementById('password-input');
+        const signInForm = document.getElementById('sign-in-form');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        const authForm = document.getElementById('auth-form');
+        const userInfo = document.getElementById('user-info');
+        const userEmailSpan = document.getElementById('user-email');
+        const signOutBtn = document.getElementById('sign-out-btn');
+        const submitBtn = document.getElementById('primary-btn');
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            successMessage.classList.remove('show');
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            errorMessage.classList.remove('show');
+        }
+
+        // Clear messages
+        function clearMessages() {
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+        }
+
+        // Handle form submission
+        signInForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+            
+            const email = emailInputEl.value.trim();
+            const password = passwordInputEl.value;
+            
+            if (!email || !password) {
+                showError('Please fill in all fields');
+                return;
+            }
+
+            if(email || password){
+                window.location.href = 'index.html';
+            }
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing In...';
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                console.log("User signed in:", user);
+                showSuccess('Sign in successful!');
+                clearAuthFields();
+                // Show user info and hide form
+                setTimeout(() => {
+                    authForm.style.display = 'none';
+                    userInfo.style.display = 'block';
+                    userEmailSpan.textContent = user.email;
+                }, 1000);
+                
+            } catch (error) {
+                console.log("Error:", error.code, error.message);
+                
+                let errorMsg = 'Sign in failed. Please try again.';
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMsg = 'No account found with this email address.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMsg = 'Incorrect password.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMsg = 'Invalid email address.';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMsg = 'This account has been disabled.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMsg = 'Too many failed attempts. Please try again later.';
+                        break;
+                    case 'auth/invalid-credential':
+                        errorMsg = 'Invalid email or password.';
+                        break;
+                }
+                showError(errorMsg);
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
+            }
+        });
+
+        // Handle sign out
+        signOutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                authForm.style.display = 'block';
+                userInfo.style.display = 'none';
+                clearMessages();
+                emailInputEl.value = '';
+                passwordInputEl.value = '';
+                showSuccess('Signed out successfully');
+            } catch (error) {
+                showError('Error signing out');
+            }
+        });
+
+        //checking for sign in status
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User is signed in:", user);
+            } else {
+                console.log("User is signed out");
+            }
+        });
+    </script>
+</body>
+</html>

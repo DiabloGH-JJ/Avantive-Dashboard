@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avantive Corporation - Customer Management Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>Avantive Corporation</h2>
+            <p>Admin Panel</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" data-section="dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="customers">Customer Management</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="add-retail">Add Retail Customer</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="add-wholesale">Add Wholesale Customer</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="header">
+            <h1 id="page-title">Dashboard Overview</h1>
+            <div class="user-info">
+                <span>Welcome, Admin | Automotive Parts Division</span>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="dashboard-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">1,247</div>
+                        <div class="stat-label">Total Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">892</div>
+                        <div class="stat-label">Retail Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">355</div>
+                        <div class="stat-label">Wholesale Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">GH₵ 5000</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Customer Activity</h3>
+                    <table class="customer-table">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name/Company</th>
+                                <th>Type</th>
+                                <th>Last Purchase</th>
+                                <th>Last Payment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!--customer manangemnet syste,-->
+            <section id="customers" class="dashboard-section">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search customers by ID, name, email, or phone..." id="customer-search">
+                    <select class="search-input" style="flex: 0 0 150px;" id="customer-filter">
+                        <option value="">All Customers</option>
+                        <option value="retail">Retail Only</option>
+                        <option value="wholesale">Wholesale Only</option>
+                    </select>
+                </div>
+
+                <div class="card">
+                    <h3>Customer Database</h3>
+                    <table class="customer-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name/Company</th>
+                                <th>Type</th>
+                                <th>Contact</th>
+                                <th>Last Purchase</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customer-table-body">
+                            <!--js would handle the data-->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!--retail customer section-->
+            <section id="add-retail" class="dashboard-section">
+                <div class="card">
+                    <h3>Add New Retail Customer</h3>
+                    <form id="retail-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="retail-id">Customer ID :</label>
+                                <input type="text" id="retail-id" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-name">Name :</label>
+                                <input type="text" id="retail-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-address">Address :</label>
+                                <input type="text" id="retail-address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-phone">Phone Number :</label>
+                                <input type="tel" id="retail-phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-shipping">Default Shipping Address :</label>
+                                <input type="text" id="retail-shipping" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-email">Email Address :</label>
+                                <input type="email" id="retail-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-last-purchase">Last Purchase Date :</label>
+                                <input type="date" id="retail-last-purchase" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-last-payment">Last Payment Date :</label>
+                                <input type="date" id="retail-last-payment" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-card-type">Credit Card Type :</label>
+                                <select id="retail-card-type" required>
+                                    <option value="">Select Card Type</option>
+                                    <option value="Visa">Visa</option>
+                                    <option value="Mastercard">Mastercard</option>
+                                    <option value="American Express">American Express</option>
+                                    <option value="Discover">Discover</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-card-number">Credit Card Number :</label>
+                                <input type="text" id="retail-card-number" placeholder="1234567890123456" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="retail-expiration">Expiration Date (MM/YY) :</label>
+                                <input type="text" id="retail-expiration" placeholder="12/25" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Retail Customer</button>
+                    </form>
+                </div>
+            </section>
+
+            <!--add wholesale customer-->
+            <section id="add-wholesale" class="dashboard-section">
+                <div class="card">
+                    <h3>Add New Wholesale Customer</h3>
+                    <form id="wholesale-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="wholesale-id">Customer ID :</label>
+                                <input type="text" id="wholesale-id" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-name">Company Name :</label>
+                                <input type="text" id="wholesale-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-address">Company Address :</label>
+                                <input type="text" id="wholesale-address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-phone">Company Phone :</label>
+                                <input type="tel" id="wholesale-phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-shipping">Default Shipping Address :</label>
+                                <input type="text" id="wholesale-shipping" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-billing">Billing Address :</label>
+                                <input type="text" id="wholesale-billing" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-last-purchase">Last Purchase Date :</label>
+                                <input type="date" id="wholesale-last-purchase" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-last-payment">Last Payment Date :</label>
+                                <input type="date" id="wholesale-last-payment" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-contact-name">Contact Name :</label>
+                                <input type="text" id="wholesale-contact-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-contact-phone">Contact Phone :</label>
+                                <input type="tel" id="wholesale-contact-phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-contact-email">Contact Email :</label>
+                                <input type="email" id="wholesale-contact-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-po-number">Purchase Order Number :</label>
+                                <input type="text" id="wholesale-po-number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-po-date">Purchase Order Date :</label>
+                                <input type="date" id="wholesale-po-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-discount">Discount Percentage :</label>
+                                <input type="number" id="wholesale-discount" min="0" max="70" step="0.01" placeholder="0.00" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wholesale-tax-status">Tax Status :</label>
+                                <select id="wholesale-tax-status" required>
+                                    <option value="">Select Tax Status</option>
+                                    <option value="exempt">Tax Exempt</option>
+                                    <option value="taxable">Taxable</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Wholesale Customer</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="index.js"></script>   
+</body>
+</html>
